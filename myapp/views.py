@@ -8,6 +8,7 @@ from .ownpermissions import ProfilePermission
 from .models import CustomUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import HttpResponse
 #CRUDに対応したクラス
 class UserViewSet(viewsets.ModelViewSet):
     #Userモデルの全インスタンスを対象とするクエリセットを定義
@@ -46,3 +47,5 @@ class GetUserAvatarNumber(APIView):
             return Response(serializer.data)
         return Response({"message": "User not found"}, status=404)
 
+def home(request):
+    return HttpResponse("Hello, World!")
