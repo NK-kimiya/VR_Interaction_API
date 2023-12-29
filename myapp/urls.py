@@ -1,10 +1,13 @@
 from django.urls import path
-from . import views
+from django.conf.urls import include
+from rest_framework import routers
+from myapp.views import  UserViewSet, ManageUserView,GetUserAvatarNumber
+
+router = routers.DefaultRouter()
+router.register('users', UserViewSet)
 
 urlpatterns = [
-    path('', views.home, name='home'),
-     path('api/custom-model/', views.CustomModelListCreateView.as_view(), name='custommodel-list-create'),
-     path('api/check-id/', views.get_entry_by_id, name='check-id-byid'),
-     path('api/get-name-and-id/', views.get_name_and_id_by_password, name='get-name-and-id-by-password'),
-     path("test", views.IndexView.as_view(), name="index"),
+    path('myself/', ManageUserView.as_view(), name='myself'),
+    path('', include(router.urls)),
+    path('get-avatar-number/', GetUserAvatarNumber.as_view()),
 ]

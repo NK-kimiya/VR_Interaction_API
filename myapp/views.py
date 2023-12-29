@@ -1,49 +1,48 @@
-from django.http import HttpResponse
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-from .models import CustomModel
-from .serializers import CustomModelSerializer
-from rest_framework import status
+from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .serializers import UserSerializer,AvatarNumberSerializer
+from .ownpermissions import ProfilePermission
+from .models import CustomUser
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from django.views.generic import View
-from django.shortcuts import render
-from django.http import JsonResponse
+#CRUDに対応したクラス
+class UserViewSet(viewsets.ModelViewSet):
+    #Userモデルの全インスタンスを対象とするクエリセットを定義
+    queryset = CustomUser.objects.all()
+    #データのシリアライズ（モデルインスタンスをJSONに変換するプロセス)
+    # に使用するシリアライザを指定
+    serializer_class = UserSerializer
+    #ビューセットにアクセスするための権限クラスを指定
+    #特定のアクションを実行するためのユーザー権限
+    permission_classes = (ProfilePermission,)
 
-def home(request):
-    return HttpResponse("Hello, Django!")
-class CustomModelListCreateView(generics.ListCreateAPIView):
-    queryset = CustomModel.objects.all()
-    serializer_class = CustomModelSerializer
+#特定のオブジェクトの取得（Retrieve）と更新（Update）のための汎用ビュー
+class ManageUserView(generics.RetrieveUpdateAPIView):
+    #データのシリアライズ（モデルインスタンスをJSONに変換するプロセス）に使用する
+    # シリアライザを指定します。ここでは、UserSerializerが使用
+    serializer_class = UserSerializer
+    #ビューにアクセスするユーザーを認証するためのクラスを指定します。
+    # この例では、TokenAuthenticationが
+    # 使用されており、トークンベースの認証方式を意味
+    authentication_classes = (TokenAuthentication,)
+    #ビューにアクセスするための権限を制御するクラスを指定します。IsAuthenticated は、
+    # ユーザーがログインしている必要がある
+    permission_classes = (IsAuthenticated,)
 
-@api_view(['POST'])
-def get_name_and_id_by_password(request):
-    _password = request.data.get('_password')
-    _name = request.data.get('name')
-    if not _password:
-        return Response({"detail": "Password not provided."}, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        return self.request.user
 
-    try:
-        custom_model_instance = CustomModel.objects.get(_password=_password, name=_name)
-        serializer = CustomModelSerializer(custom_model_instance)
-        return Response({"name": serializer.data['name'], "id": serializer.data['id'],"avatar_number": serializer.data['avatart_number']}, status=status.HTTP_200_OK)
-    except CustomModel.DoesNotExist:
-        return Response({"detail": "No entry found for the given password."}, status=status.HTTP_404_NOT_FOUND)
+#TDO:unityからユーザーIDを受け取って、ユーザーをフィルターして、そのuseridだけを
+#レスポンスする。パスワードとユーザー名はアクセスできないように設定する。
+class GetUserAvatarNumber(APIView):
+    def post(self, request, format=None):
+        userid = request.data.get('userid')
+        user = CustomUser.objects.filter(userid=userid).first()
+        if user:
+            serializer = AvatarNumberSerializer(user)
+            return Response(serializer.data)
+        return Response({"message": "User not found"}, status=404)
 
-@api_view(['POST'])
-def get_entry_by_id(request):
-    _id = request.data.get('id')
-    if not _id:
-        return Response({"detail": "ID not provided."}, status=status.HTTP_400_BAD_REQUEST)
-    try:
-        _id = int(_id)
-    except ValueError:
-        return JsonResponse({"error": "Invalid ID format. Expected an integer value."}, status=400)
-    try:
-        custom_model_instance = CustomModel.objects.get(id=_id)
-        serializer = CustomModelSerializer(custom_model_instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except CustomModel.DoesNotExist:
-        return Response({"detail": "No entry found for the given ID."}, status=status.HTTP_404_NOT_FOUND)
-class IndexView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, "app/index.html")

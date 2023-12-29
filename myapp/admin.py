@@ -1,10 +1,20 @@
 from django.contrib import admin
-from .models import CustomModel
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser
 
-class CustomModelAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', '_password')  # Adminサイトのリスト表示で表示するフィールド
-    search_fields = ('name',)  # 検索ボックスで検索できるフィールド
-    readonly_fields = ('id',)  # 編集不可のフィールド
+class CustomUserAdmin(UserAdmin):
+    # カスタムユーザーモデルのフィールドを追加するための設定
+    model = CustomUser
+    list_display = ['username', 'avatart_number','userid']
+    
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('userid',)}),  # 'userid' を追加
+    )
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (None, {'fields': ('userid',)}),  # 'userid' を追加
+    )
 
-admin.site.register(CustomModel, CustomModelAdmin)
+# カスタムユーザーモデルを管理サイトに登録
+admin.site.register(CustomUser, CustomUserAdmin)
+
 

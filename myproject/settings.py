@@ -15,6 +15,15 @@ import os
 import environ
 from decouple import config
 from dj_database_url import parse as dburl
+from datetime import timedelta
+
+# REST Frameworkの設定
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 他のREST frameworkの設定（あれば）
+}
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,19 +54,29 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
     'rest_framework',
+    'rest_framework.authtoken',#追加
     'corsheaders',
 ]
 
+AUTH_USER_MODEL = 'myapp.CustomUser'
+
+#CORS_ORIGIN_WHITELIST = [
+    #'http://localhost:3000',
+#]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',#追加
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -135,3 +154,4 @@ SUPERUSER_NAME = env("SUPERUSER_NAME")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
 CORS_ALLOW_ALL_ORIGINS = True
+
