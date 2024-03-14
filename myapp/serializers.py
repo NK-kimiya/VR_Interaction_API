@@ -24,4 +24,4 @@ class UserSerializer(serializers.ModelSerializer):
 class AvatarNumberSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['avatart_number']
+        fields = ['username', 'avatart_number']

@@ -40,19 +40,8 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 #レスポンスする。パスワードとユーザー名はアクセスできないように設定する。
 class GetUserAvatarNumber(APIView):
     def post(self, request, format=None):
-        '''userid = request.data.get('userid')
-        user = CustomUser.objects.filter(userid=userid).first()
-        if user:
-            serializer = AvatarNumberSerializer(user)
-            return Response(serializer.data)
-        return Response({"message": "User not found"}, status=404)'''
         userid = request.data.get('userid')
-
-        # useridが空でないか、そして整数に変換可能かを検証
-        if not userid or not userid.isdigit():
-            return Response({"message": "Invalid or missing 'userid'"}, status=400)
-
-        user = CustomUser.objects.filter(userid=int(userid)).first()
+        user = CustomUser.objects.filter(userid=userid).first()
         if user:
             serializer = AvatarNumberSerializer(user)
             return Response(serializer.data)
