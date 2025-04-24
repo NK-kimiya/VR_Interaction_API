@@ -63,7 +63,7 @@
 
 📁 [VR_Interaction_WebRTC](https://github.com/NK-kimiya/VR_Interaction_signallingserver)　　
 
--ReactプロジェクトとWebRTCを実装する際のシグナリングサーバー
+-ReactプロジェクトでWebRTCを実装する際のシグナリングサーバー
 
 
 
