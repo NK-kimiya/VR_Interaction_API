@@ -5,7 +5,7 @@
 
 [紹介記事](https://kimikou-blog.jp/prototypes/vr%e3%82%a2%e3%83%97%e3%83%aa/)
 
-## Unity、Django、Express、Reactを利用しました。　
+## 利用ツール：Unity、Django、Express、React
 
  [VR_Interaction_UnityOpenXR(Unity)](https://github.com/NK-kimiya/VR_Interaction_UnityOpenXR)　
 
@@ -15,7 +15,7 @@
 
  [VR_Interaction_WebRTC(React)](https://github.com/NK-kimiya/VR_Interaction_WebRTC)　
 
- ※下記の方法での実行を前提としています。　
+ ※下記の方法での実行を試しました。　
  
  Django、Express、Reactはホスティングサービス(RenderやHerokuなど)でホスティングを行い、Unityはビルドし、MetaQuest2に実行ファイルを送信　
 
