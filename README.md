@@ -42,3 +42,17 @@
 ---
 
 
+## 🔗 関連プロジェクト（Unity側）
+
+Djangoプロジェクトは、デプロイをすることで以下のUnityプロジェクトと連携して動作します。
+
+📁 [VR_Interaction_UnityOpenXR](../UnityProjectPath/README.md)
+
+- Meta Quest 2 向けにOpenXRを使用したVRアプリ
+- Unity上のアバター操作・ネットワーク接続・認証情報の取得などを行います
+- 本プロジェクトのAPI（Django）は、**ユーザーID取得やアバター番号の提供**を担当しています
+
+
+
+
+
