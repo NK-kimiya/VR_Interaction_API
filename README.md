@@ -15,7 +15,8 @@
 
  [VR_Interaction_WebRTC(React)](https://github.com/NK-kimiya/VR_Interaction_WebRTC)　
 
- ※下記の方法での実行を前提としています。
+ ※下記の方法での実行を前提としています。　
+ 
  Django、Express、Reactはホスティングサービス(RenderやHerokuなど)でホスティングを行い、Unityはビルドし、MetaQuest2に実行ファイルを送信　
 
 ---
