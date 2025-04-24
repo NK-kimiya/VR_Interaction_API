@@ -1,10 +1,9 @@
----　
 
-## ミニマムで開発したもの 
+## 開発したもの 
 
 目的：仮想空間(メタバース)上で音声通話をしながらコミュニケーションができるアプリで、「病気や障がいなどがきっかけで感じる孤独感を軽減したい」という目的でミニマムで開発を進めました。
 
-[VR APP](https://kimikou-blog.jp/prototypes/vr%e3%82%a2%e3%83%97%e3%83%aa/)
+[紹介記事](https://kimikou-blog.jp/prototypes/vr%e3%82%a2%e3%83%97%e3%83%aa/)
 
 ## Unity、Django、Express、Reactを利用しました。　
 
